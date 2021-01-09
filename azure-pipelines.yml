@@ -33,10 +33,16 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
 #- task: WhiteSource Bolt@20
 - task: AzureFileCopy@4
   inputs:
-    SourcePath: '$(buildOutputFolder)'
+    SourcePath: '$(Build.ArtifactStagingDirectory)'
     azureSubscription: 'Publish_Build_ToStorage'
     Destination: 'AzureBlob'
     storage: 'raguartificats'
