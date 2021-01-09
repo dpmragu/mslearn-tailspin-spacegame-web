@@ -13,6 +13,7 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  buildOutputFolder: 'buildfolder'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -33,3 +34,10 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 #- task: WhiteSource Bolt@20
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: '$(buildOutputFolder)'
+    azureSubscription: 'Publish_Build_ToStorage'
+    Destination: 'AzureBlob'
+    storage: 'raguartificats'
+    ContainerName: 'mybuildcopy'
